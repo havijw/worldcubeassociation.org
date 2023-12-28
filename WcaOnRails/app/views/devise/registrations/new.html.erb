@@ -58,23 +58,23 @@
     var $neverCompetedForm = $('#never-competed');
 
     var $anyCompetedRadio = $(':radio[name="user[claiming_wca_id]"]');
-    var $anyCompetedForm = $('.collapse');
+    var $anyCompetedForm = $('.form-group.collapse');
 
     // Enable inputs in a panel only when that panel is shown
-    $anyCompetedForm.find("input").attr("disabled", true)
+    $anyCompetedForm.find("input").prop("disabled", true);
     $anyCompetedForm.on('show.bs.collapse', function() {
-      $(this).find("input").attr("disabled", false);
-      $(this).find("select").attr("disabled", false);
+      $(this).find("input").prop("disabled", false);
+      $(this).find("select").prop("disabled", false);
     });
     $anyCompetedForm.on('hidden.bs.collapse', function() {
-      $(this).find("input").attr("disabled", true);
-      $(this).find("select").attr("disabled", true);
+      $(this).find("input").prop("disabled", true);
+      $(this).find("select").prop("disabled", true);
     });
 
     // Leave the "sign up" button disabled until the users tells us if they
     // have competed before
     $anyCompetedForm.on('show.bs.collapse', function() {
-      $('input[type="submit"]').attr('disabled', false);
+      $('input[type="submit"]').prop("disabled", false);
     });
 
     // Expand/collapse forms when switching radio buttons

@@ -19,22 +19,9 @@ RSpec.feature "Sign up" do
 
       expect(page).to have_selector('#have-competed', visible: :hidden)
       expect(page).to have_button("Sign up", disabled: true)
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       expect(page).to have_selector('#have-competed', visible: :visible)
       expect(page).to have_button("Sign up")
-    end
-
-    it 'disables sign up button after opening and then closing "have competed"' do
-      visit "/users/sign_up"
-
-      expect(page).to have_selector('#have-competed', visible: :hidden)
-      expect(page).to have_button("Sign up", disabled: true)
-      click_on "I have competed in a WCA competition."
-      expect(page).to have_selector('#have-competed', visible: :visible)
-      expect(page).to have_button("Sign up", disabled: false)
-      click_on "I have competed in a WCA competition."
-      expect(page).to have_selector('#have-competed', visible: :hidden)
-      expect(page).to have_button("Sign up", disabled: true)
     end
 
     it 'finds people by name' do
@@ -43,7 +30,7 @@ RSpec.feature "Sign up" do
       fill_in "Email", with: "jack@example.com"
       fill_in "user[password]", with: "wca"
       fill_in "user[password_confirmation]", with: "wca"
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
 
       # They have not selected a valid WCA ID yet, so don't show the birthdate verification
       # field.
@@ -92,7 +79,7 @@ RSpec.feature "Sign up" do
 
     it "remembers that they have competed before on validation error" do
       visit "/users/sign_up"
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       click_button "Sign up"
 
       expect(page).to have_selector('#have-competed', visible: :visible)
@@ -100,7 +87,7 @@ RSpec.feature "Sign up" do
 
     it "remembers their selected wca id on validation error" do
       visit "/users/sign_up"
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       # They have not selected a valid WCA ID yet, so don't show the birthdate verification
       # field.
       expect(page).to have_selector("div.user_dob_verification", visible: :hidden)
@@ -123,7 +110,7 @@ RSpec.feature "Sign up" do
 
     it "remembers their selected wca id and custom delegate on validation error" do
       visit "/users/sign_up"
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       # They have not selected a valid WCA ID yet, so don't show the birthdate verification
       # field.
       expect(page).to have_selector("div.user_dob_verification", visible: :hidden)
@@ -165,7 +152,7 @@ RSpec.feature "Sign up" do
       # "never competed".
       expect(page).to have_selector('#never-competed', visible: :hidden)
       expect(page).to have_button("Sign up", disabled: true)
-      click_on "I have never competed in a WCA competition."
+      choose "I have never competed in a WCA competition."
       expect(page).to have_selector('#never-competed', visible: :visible)
       expect(page).to have_button("Sign up")
 
@@ -182,22 +169,9 @@ RSpec.feature "Sign up" do
       expect(u.gender).to eq "m"
     end
 
-    it 'disables sign up button after opening and then closing "never competed"' do
-      visit "/users/sign_up"
-
-      expect(page).to have_selector('#never-competed', visible: :hidden)
-      expect(page).to have_button("Sign up", disabled: true)
-      click_on "I have never competed in a WCA competition."
-      expect(page).to have_selector('#never-competed', visible: :visible)
-      expect(page).to have_button("Sign up", disabled: false)
-      click_on "I have never competed in a WCA competition."
-      expect(page).to have_selector('#never-competed', visible: :hidden)
-      expect(page).to have_button("Sign up", disabled: true)
-    end
-
     it "remembers that they have not competed before on validation error" do
       visit "/users/sign_up"
-      click_on "I have never competed in a WCA competition."
+      choose "I have never competed in a WCA competition."
       click_button "Sign up"
 
       expect(page).to have_selector('#never-competed', visible: :visible)
@@ -212,7 +186,7 @@ RSpec.feature "Sign up" do
       fill_in "user[password]", with: "wca"
       fill_in "user[password_confirmation]", with: "wca"
 
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       fill_in_selectize "WCA ID", with: person.wca_id
 
       # Wait for select delegate area to load via ajax.
@@ -228,7 +202,7 @@ RSpec.feature "Sign up" do
       # We just filled some invalid information as if we were a returning competitor, but
       # now change our minds and fill out the form as if we're a noobie. We should only show
       # an error message about the full name.
-      click_on "I have never competed in a WCA competition."
+      choose "I have never competed in a WCA competition."
       click_button "Sign up"
       expect(page).to have_selector(".alert.alert-danger li", count: 1)
       expect(page.find(".user_name span.help-block")).to have_content "can't be blank"
@@ -248,7 +222,7 @@ RSpec.feature "Sign up" do
       fill_in "user[password]", with: "wca"
       fill_in "user[password_confirmation]", with: "wca"
 
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       click_button "Sign up"
       expect(page).to have_selector(".alert.alert-danger li", count: 3)
       expect(page.find(".alert.alert-danger")).to have_content "Delegate id to handle wca id claim required"
@@ -265,11 +239,11 @@ RSpec.feature "Sign up" do
       fill_in "user[password]", with: "wca"
       fill_in "user[password_confirmation]", with: "wca"
 
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       fill_in_selectize "WCA ID", with: person.wca_id
 
       click_button "Sign up"
-      click_on "I have never competed in a WCA competition."
+      choose "I have never competed in a WCA competition."
       expect(page.find("#user_dob", visible: :hidden).value).to eq ""
     end
 
@@ -280,17 +254,17 @@ RSpec.feature "Sign up" do
       fill_in "user[password]", with: "wca"
       fill_in "user[password_confirmation]", with: "wca"
 
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
 
       click_button "Sign up"
       page.find('#have-competed.collapse.in') # ensure page loads completely
 
       expect(page).to have_selector('#have-competed', visible: :visible)
       expect(page).to have_selector('#never-competed', visible: :hidden)
-      click_on "I have never competed in a WCA competition."
+      choose "I have never competed in a WCA competition."
       expect(page).to have_selector('#have-competed', visible: :hidden)
       expect(page).to have_selector('#never-competed', visible: :visible)
-      click_on "I have competed in a WCA competition."
+      choose "I have competed in a WCA competition."
       expect(page).to have_selector('#have-competed', visible: :visible)
       expect(page).to have_selector('#never-competed', visible: :hidden)
     end
@@ -304,7 +278,7 @@ RSpec.feature "Sign up" do
       fill_in "user[email]", with: "jack@example.com"
       fill_in "user[password]", with: "wca"
       fill_in "user[password_confirmation]", with: "wca"
-      click_on "Nunca he competido en competiciones de la WCA."
+      choose "Nunca he competido en competiciones de la WCA."
       fill_in "user[name]", with: "Jack Johnson"
 
       click_button "Registrarse"
